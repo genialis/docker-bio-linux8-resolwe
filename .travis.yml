@@ -1,0 +1,22 @@
+sudo: required
+
+services:
+  - docker
+
+language: bash
+
+install:
+  # Docker Official Images Test Suite
+  - git clone https://github.com/docker-library/official-images.git ~/official-images
+
+before_script:
+  - env | sort
+  - image="resolwe/bio-linux8-resolwe"
+
+script:
+  - docker build -t "$image" .
+  # run some generic tests from the Docker Official Images Test Suite
+  - ~/official-images/test/run.sh "$image"
+
+after_script:
+  - docker images
