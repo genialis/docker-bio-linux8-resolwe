@@ -3,20 +3,28 @@ sudo: required
 services:
   - docker
 
+env:
+  global:
+    - secure: "zRH2DXTg9N+ZuXEO4oxc+j1SSowIRzmiivk6gzGRh/t8A/o4EF06iqEkjIlINKbeZmRoHgR/oXehV9dOMX5gbvbyLINf4K6fYeF255+mnmJQDJ4lWUbCEjosKK7yKUvykFdpnOoGumv18LoZYBp4+3G7LtpIQGpCRj4cZHXygPVyfheN76drbClC8BqoAC0kFd8YAU+DJnewiz6f/uChbGgHFmJFbgTdTmuBqupceEGA7uzQdfAJjO34HDBbX7u+PQnlk7fHyrazJWrBuvYNzJYxRb8SHhoo+AVT1XpY7dRcxdnFeccUyuNyQxxQzJrudcrU3d7K/CIrcMBfCa1avDJrslwCm4xfmKexKRYN6sSvABgGitTfFYd7/nyB2n1k1nEifWvFi65YXq5PTsupzFRYefRtmp5dbAkLscp4+ZUTq3iMM7ZFvfdH8Bs4ggdDKaddQEW5UG20eGQ0RTPureNDkjKE0pVj49BvICr3gpF2CoDtttYu6LOBTgW6j2C0jrNBbZjSMtHUuPj4czPLADyN6Z+r0f7hHbe+nL+A+Qz7nd+QGvKC105+92GtT22KRUuRGpdPGApJIQ1KdKKm585usODqwJhKLAhFg+6w2Cwa1R3LP00JNk5sCxeVkLOITuum9rOHMaPTujuxk5SaTY4++qrGkyy6WHl7gZ5vvA0=" # DOCKER_EMAIL
+    - secure: "wNs6GhLFzkX+cK0Ujw7GffErXtsW0AWDi7VQraetotAHJdl725YDRztU9PieLuM9BSb+lJbddRfP94R3IkchTPCz4zTHekr82k9okiPYjahJJhhuef9B1R0HWJXVPh3lWUsvzNC16t8JF765DdVrzLvH+59cGR8H0lUO13DUHFaOOsxKAvfhJT15BoEHiSZmKP6UnjJ+3LqqYGUH2CnmTbJY7iGdthCv6/jBpanP5wKSBotfys0ynnCXwFQ44Et7DhW4HlerAVaWfjlF8Tp/vx48IfYzHQPihc//lLhRrR4ZSudU0Xa5Ttzn07is+K7AOdOcveIYqr8a2+jyQP49B2TkSoeiKe/TLILVdKdt4pupNaZpv/x+D6JcXoQqgI+pItMACEhaib/KEw8AR9/8J1Xl0POJllSpXzVHFlmQWmWkl0XbyaaNvyjUZrZZ3A/Qk2JBS9nwbkpGe4BwNXC9Dk2iLF4u5wwShw2NJKaSg9Aybj87sr5lX8s1pxRGrSiNqcpw96KRqWFBa/bWs0zvFJ474AqtUkZWkiOoXRIGacH1q7L29eywccw48NDRAM3CSIlCtzqc5H5i9POtP+VGCjlWhxJ9zauFjSkc0hQMEZ+kziFQia3q8OzzRYNn4VOcMJb2Rgtf0WikpKWkCeeGQsB4Z5fpy2dLAk3VfMLBhnk=" # DOCKER_USER
+    - secure: "WqEDEe0OOD89zYW2oWvnb/GX8sJX9t/+7bz9ULLPiJrz/1uzeY+nD3FDfRVQFUKrVFsA7QK5h9hy0acTUsbPOw440IJjoOiz80GRzAEYrRSEHHqakgufaeHDBmXILuYKkD4NYtrEl1XJIqqmjHt+yVNqYlBIqLgBn4TaWCZzaqGNEqPHM6v/RP0NOOMoYwVkaXgPtnuvXUTqfJnqwC7XAQb59uSbELh2Nif4xIVKphjNn8gWbj37/xs0S23QVD59g4IoDmkiLt290ovN1EINstj4krdaQcy/pYBlyagosLBcPfqZ8oQQXPqvUjVasW8yG3w7vnA4JRv48uzQK+z2zafoI2E19I+DFYbX4t93HQoti4j7e4ril8bkAdL33T105ySebseH8rnUzhxqcJzPpTA01CUKMc9GXLnx7oez5E+PXFHrNM8BECSloOugdjX+oCX44Op8lrk+ps4CHDB5KwYCAgDEW2q+ZFaKB+JsngUBpld8+81mqr2iJSWtZ9VVqeXBPNVRoGXEifvBkxUdI1A2UEaXaqFPQBa7WZq9AwaegzXWUGrdbVIFLIAvjA3oDcdwMTaEWNO4WxL5T50gocMG0gxPyG5sa6GJkAQndM06aLq8B1NPr9RIHK8EiMBV156Ov6IhYyqqkVptY7tfqmxH2CwEqcVqnztX160y37Y=" # DOCKER_PASS
+    - REPO=resolwe/bio-linux8-resolwe
+    - COMMIT=${TRAVIS_COMMIT::8}
+
 language: bash
 
 install:
   # Docker Official Images Test Suite
   - git clone https://github.com/docker-library/official-images.git ~/official-images
 
-before_script:
-  - env | sort
-  - image="resolwe/bio-linux8-resolwe"
-
 script:
-  - docker build -t "$image" .
+  - docker build -t $REPO:$COMMIT .
   # run some generic tests from the Docker Official Images Test Suite
-  - ~/official-images/test/run.sh "$image"
+  - ~/official-images/test/run.sh $REPO:$COMMIT
+
+after_success:
+  - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then ./.scripts/push_to_docker_hub.sh; fi
 
 after_script:
   - docker images
+  - docker history $REPO:$COMMIT
