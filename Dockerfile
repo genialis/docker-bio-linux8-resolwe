@@ -45,6 +45,28 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     # XXX: Remove this after updating resolwe-runtime-utils
     echo "[[ -f ~/.bash_profile ]] && source ~/.bash_profile" >> ~/.bashrc && \
 
+    echo "Installing JBrowse..." && \
+    JBROWSE_VERSION=1.12.0 && \
+    JBROWSE_SHA1SUM=c74adeb9840ae5c9348e59a9054fa93cf68d0402 && \
+    wget -q https://jbrowse.org/releases/JBrowse-$JBROWSE_VERSION.zip -O jbrowse.zip && \
+    echo "$JBROWSE_SHA1SUM *jbrowse.zip" | sha1sum -c - && \
+    unzip -q jbrowse.zip && \
+    rm jbrowse.zip && \
+    cd JBrowse-$JBROWSE_VERSION && \
+    # patch setup.sh script to prevent formatting of example data and building
+    # support for legacy tools
+    sed -i '/Formatting Volvox example data .../,$d' setup.sh && \
+    ./setup.sh && \
+    # remove all files and directories except those we explicitly want to keep
+    find . -depth -not \( \
+        -path './bin*' -o \
+        -path './src/perl5*' -o \
+        -path './extlib/lib/perl5*' \
+        -o \( -type d -not -empty \) \
+    \) -delete && \
+    echo "PATH=\$PATH:~/JBrowse-$JBROWSE_VERSION/bin" >> ~/.bash_profile && \
+    cd .. && \
+
     echo "Preparing directories..." && \
     mkdir upload && \
     mkdir data && \
