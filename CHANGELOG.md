@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - JBrowse 1.12.0.
+- tabix (currently, 0.2.6).
 
 ## 0.1.0 - 2016-02-04
 

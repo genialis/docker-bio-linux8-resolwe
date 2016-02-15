@@ -25,9 +25,12 @@ ADD curlprogress.py /usr/local/bin/curlprogress.py
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
 
-    echo "Installing pip..." && \
+    echo "Installing apt packages..." && \
     sudo apt-get update && \
-    sudo apt-get -y install --no-install-recommends python-pip && \
+    sudo apt-get -y install --no-install-recommends \
+      python-pip \
+      tabix \
+      && \
 
     echo "Installing resolwe-runtime-utils..." && \
     sudo pip install resolwe-runtime-utils==0.2.0 && \
