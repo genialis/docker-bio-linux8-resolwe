@@ -70,6 +70,19 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     echo "PATH=\$PATH:~/JBrowse-$JBROWSE_VERSION/bin" >> ~/.bash_profile && \
     cd .. && \
 
+    echo "Installing Bioconductor R packages..." && \
+    sudo Rscript --slave --no-save --no-restore-history -e " \
+      package_list = c( \
+        'Rsamtools', \
+        'reshape2', \
+        'seqinr', \
+        'stringr', \
+        'tidyr' \
+      ); \
+      source('http://www.bioconductor.org/biocLite.R'); \
+      biocLite(package_list) \
+    " && \
+
     echo "Preparing directories..." && \
     mkdir upload && \
     mkdir data && \

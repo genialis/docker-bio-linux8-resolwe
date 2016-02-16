@@ -9,6 +9,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - JBrowse 1.12.0.
 - tabix (currently, 0.2.6).
+- Bioconductor R packages:
+  - Rsamtools
+  - reshape2
+  - seqinr
+  - stringr
+  - tidyr
 
 ## 0.1.0 - 2016-02-04
 
