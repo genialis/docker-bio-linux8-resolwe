@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
   - seqinr
   - stringr
   - tidyr
+- Cheng Lin's Chemical Mutagenesis (git revision 9e999d4).
 
 ## 0.1.0 - 2016-02-04
 
