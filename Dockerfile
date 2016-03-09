@@ -35,6 +35,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
       tabix \
       && \
 
+    echo "Enabling vcfutils.pl from samtools package..." && \
+    sudo ln -s /usr/share/samtools/vcfutils.pl /usr/local/bin/vcfutils.pl && \
+
     echo "Installing resolwe-runtime-utils..." && \
     sudo pip install resolwe-runtime-utils==0.2.0 && \
     # XXX: Remove this hack after updating resolwe-runtime-utils
