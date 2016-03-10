@@ -76,6 +76,16 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     echo "PATH=\$PATH:~/JBrowse-$JBROWSE_VERSION/bin" >> ~/.bash_profile && \
     cd .. && \
 
+    echo "Installing BEDOPS..." && \
+    BEDOPS_VERSION=2.4.15 && \
+    BEDOPS_SHA1SUM=6e7ca9394f1805888cf7ccc73fbe76b25f089ad9 && \
+    wget -q https://github.com/bedops/bedops/releases/download/v$BEDOPS_VERSION/bedops_linux_x86_64-v$BEDOPS_VERSION.tar.bz2 -O bedops.tar.bz2 && \
+    echo "$BEDOPS_SHA1SUM *bedops.tar.bz2" | sha1sum -c - && \
+    mkdir BEDOPS-$BEDOPS_VERSION && \
+    tar -xf bedops.tar.bz2 --directory BEDOPS-$BEDOPS_VERSION && \
+    rm bedops.tar.bz2 && \
+    echo "PATH=\$PATH:~/BEDOPS-$BEDOPS_VERSION/bin" >> ~/.bash_profile && \
+
     echo "Installing Bioconductor R packages..." && \
     sudo Rscript --slave --no-save --no-restore-history -e " \
       package_list = c( \
