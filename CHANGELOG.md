@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - JBrowse 1.12.0.
 - BEDOPS 2.4.15.
 - tabix (currently, 0.2.6).
+- MACS2 2.1.1.20160309.
 - Bioconductor R packages:
   - Rsamtools
   - reshape2

@@ -54,6 +54,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     # XXX: Remove this after updating resolwe-runtime-utils
     echo "[[ -f ~/.bash_profile ]] && source ~/.bash_profile" >> ~/.bashrc && \
 
+    echo "Installing MACS2..." && \
+    sudo pip install MACS2==2.1.1.20160309 && \
+
     echo "Installing JBrowse..." && \
     JBROWSE_VERSION=1.12.0 && \
     JBROWSE_SHA1SUM=c74adeb9840ae5c9348e59a9054fa93cf68d0402 && \
