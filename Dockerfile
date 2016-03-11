@@ -89,6 +89,14 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     rm bedops.tar.bz2 && \
     echo "PATH=\$PATH:~/BEDOPS-$BEDOPS_VERSION/bin" >> ~/.bash_profile && \
 
+    echo "Installing R packages..." && \
+    sudo Rscript --slave --no-save --no-restore-history -e " \
+      package_list = c( \
+        'argparse' \
+      ); \
+      install.packages(package_list) \
+    " && \
+
     echo "Installing Bioconductor R packages..." && \
     sudo Rscript --slave --no-save --no-restore-history -e " \
       package_list = c( \
@@ -130,5 +138,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     echo "Cleaning up..." && \
     sudo apt-get clean && \
     sudo rm -rf /var/lib/apt/lists/*
+
 
 WORKDIR /home/biolinux/data

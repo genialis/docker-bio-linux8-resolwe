@@ -11,6 +11,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - BEDOPS 2.4.15.
 - tabix (currently, 0.2.6).
 - MACS2 2.1.1.20160309.
+- R packages:
+  - argparse
 - Bioconductor R packages:
   - Rsamtools
   - reshape2
