@@ -28,9 +28,13 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     echo "Preparing directory for auxiliary data..." && \
     mkdir auxiliary_data && \
 
+    echo "Adding Bradner Lab's pipeline PPA..." && \
+    sudo add-apt-repository -y ppa:bradner-computation/pipeline && \
+
     echo "Installing apt packages..." && \
     sudo apt-get update && \
     sudo apt-get -y install --no-install-recommends \
+      bamliquidator=1.2.0-0ppa1~trusty \
       python-pip \
       tabix \
       && \
