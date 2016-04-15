@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - tabix (currently, 0.2.6).
 - bamliquidator 1.2.0-0ppa1~trusty.
 - MACS2 2.1.1.20160309.
+- ROSE2 1.0.2.
 - R packages:
   - argparse
 - Bioconductor R packages:
