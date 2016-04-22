@@ -35,6 +35,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     sudo apt-get update && \
     sudo apt-get -y install --no-install-recommends \
       bamliquidator=1.2.0-0ppa1~trusty \
+      bedtools \
       python-pip \
       tabix \
       && \
