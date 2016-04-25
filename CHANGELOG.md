@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - BEDOPS 2.4.15.
 - tabix (currently, 0.2.6).
 - bedtools (currently, 2.17.0).
+- p7zip-full (currently, 9.20.1).
 - bamliquidator 1.2.0-0ppa1~trusty.
 - MACS2 2.1.1.20160309.
 - ROSE2 1.0.2.
