@@ -38,9 +38,11 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 
     echo "Installing apt packages..." && \
     sudo apt-get update && \
+    sudo apt-get -y build-dep libcurl4-gnutls-dev && \
     sudo apt-get -y install --no-install-recommends \
       bamliquidator=1.2.0-0ppa1~trusty \
       bedtools \
+      libcurl4-gnutls-dev \
       p7zip-full \
       python-pip \
       tabix \
@@ -136,7 +138,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     echo "Installing R packages..." && \
     sudo Rscript --slave --no-save --no-restore-history -e " \
       package_list = c( \
-        'argparse' \
+        'argparse', \
+        'devtools', \
+        'dplyr' \
       ); \
       install.packages(package_list) \
     " && \
@@ -154,26 +158,11 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
       biocLite(package_list) \
     " && \
 
-    echo "Installing Cheng Lin's Chemical Mutagenesis..." && \
-    CHEMICAL_MUTAGENESIS_VERSION=9e999d4 && \
-    CHEMICAL_MUTAGENESIS_SHA1SUM=c761f7f5d6fb33e670d3a16c3da37950cbb91f40 && \
-    wget -q https://github.com/chenglinli/chemical_mutagenesis/archive/$CHEMICAL_MUTAGENESIS_VERSION.tar.gz -O chemical_mutagenesis.tar.gz && \
-    echo "$CHEMICAL_MUTAGENESIS_SHA1SUM *chemical_mutagenesis.tar.gz" | sha1sum -c - && \
-    mkdir chemical_mutagenesis-$CHEMICAL_MUTAGENESIS_VERSION && \
-    tar -xf chemical_mutagenesis.tar.gz --strip-components=1 -C chemical_mutagenesis-$CHEMICAL_MUTAGENESIS_VERSION && \
-    rm chemical_mutagenesis.tar.gz && \
-    cd chemical_mutagenesis-$CHEMICAL_MUTAGENESIS_VERSION && \
-    unzip -q -d ~/auxiliary_data/chemical_mutagenesis Reference_files.zip && \
-    # remove all files expect R files which we want to keep
-    find . -depth -not \( \
-        -path './R/*' -o \
-        \( -type d -not -empty \) \
-    \) -delete && \
-    # source R files in ~/.Rprofile so that they are loaded when R starts
-    echo "# Cheng Lin's Chemical Mutagenesis' R scripts" >> ~/.Rprofile && \
-    find `pwd` -iname "*.R" -type f -exec echo "source('{}')" >> ~/.Rprofile \; && \
-    echo >> ~/.Rprofile && \
-    cd .. && \
+    echo "Installing R packages from GitHub..." && \
+    sudo Rscript --slave --no-save --no-restore-history -e " \
+      library(devtools); \
+      install_github('jkokosar/chemut') \
+    " && \
 
     echo "Preparing directories..." && \
     mkdir upload && \
