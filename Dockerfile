@@ -25,6 +25,11 @@ ADD curlprogress.py /usr/local/bin/curlprogress.py
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
 
+    echo "System information:" && \
+    export NPROC=$(nproc) && \
+    echo "  - $NPROC processing units available" && \
+    echo "  - $(free -h | grep Mem | awk '{print $2}') of memory available" && \
+
     echo "Preparing directory for auxiliary data..." && \
     mkdir auxiliary_data && \
 
