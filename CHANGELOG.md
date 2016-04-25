@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - JBrowse 1.12.0.
 - BEDOPS 2.4.15.
+- GenomeTools 1.5.3.
 - tabix (currently, 0.2.6).
 - bedtools (currently, 2.17.0).
 - p7zip-full (currently, 9.20.1).

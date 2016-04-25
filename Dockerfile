@@ -103,6 +103,20 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     rm bedops.tar.bz2 && \
     echo "PATH=\$PATH:~/BEDOPS-$BEDOPS_VERSION/bin" >> ~/.bash_profile && \
 
+    echo "Installing GenomeTools..." && \
+    GENOMETOOLS_VERSION=1.5.3 && \
+    GENOMETOOLS_SHA1SUM=a0a3a18acf68728ffb177a54c81ddb3295aa325d && \
+    wget -q https://github.com/genometools/genometools/archive/v$GENOMETOOLS_VERSION.tar.gz -O genometools.tar.gz && \
+    echo "$GENOMETOOLS_SHA1SUM *genometools.tar.gz" | sha1sum -c - && \
+    mkdir genometools-$GENOMETOOLS_VERSION && \
+    tar -xf genometools.tar.gz --directory genometools-$GENOMETOOLS_VERSION --strip-components=1 && \
+    rm genometools.tar.gz && \
+    cd genometools-$GENOMETOOLS_VERSION && \
+    make 64bit=yes cairo=no -j $NPROC && \
+    sudo make 64bit=yes cairo=no install && \
+    cd .. && \
+    rm -rf genometools-$GENOMETOOLS_VERSION && \
+
     echo "Installing R packages..." && \
     sudo Rscript --slave --no-save --no-restore-history -e " \
       package_list = c( \
