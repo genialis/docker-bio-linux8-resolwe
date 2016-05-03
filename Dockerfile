@@ -120,6 +120,13 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     cd .. && \
     rm -rf genometools-$GENOMETOOLS_VERSION && \
 
+    echo "Installing HISAT2..." && \
+    HISAT_VERSION=2.0.3-beta && \
+    wget -q ftp://ftp.ccb.jhu.edu/pub/infphilo/hisat2/downloads/hisat2-$HISAT_VERSION-Linux_x86_64.zip -O hisat2-$HISAT_VERSION.zip && \
+    unzip -q hisat2-$HISAT_VERSION.zip && \
+    rm hisat2-$HISAT_VERSION.zip && \
+    echo "PATH=\$PATH:~/hisat2-$HISAT_VERSION" >> ~/.bash_profile && \
+
     echo "Installing R packages..." && \
     sudo Rscript --slave --no-save --no-restore-history -e " \
       package_list = c( \

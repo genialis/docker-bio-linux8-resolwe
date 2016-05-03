@@ -29,6 +29,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Cheng Lin's Chemical Mutagenesis (git revision 9e999d4).
 - vcfutils.pl from samtools package.
 - cutadapt 1.9.1.
+- HISAT2 2.0.3-beta.
 
 ## 0.1.0 - 2016-02-04
 
