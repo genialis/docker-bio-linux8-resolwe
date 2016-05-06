@@ -71,6 +71,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     echo "Installing ROSE2..." && \
     sudo pip install rose2==1.0.2 && \
 
+    echo "Installing cutadapt..." && \
+    sudo pip install cutadapt==1.9.1 && \
+
     echo "Installing JBrowse..." && \
     JBROWSE_VERSION=1.12.0 && \
     JBROWSE_SHA1SUM=c74adeb9840ae5c9348e59a9054fa93cf68d0402 && \
