@@ -161,7 +161,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     echo "Installing R packages from GitHub..." && \
     sudo Rscript --slave --no-save --no-restore-history -e " \
       library(devtools); \
-      install_github('jkokosar/chemut') \
+      install_github('jkokosar/chemut'); \
+      install_github('jkokosar/RNASeqT') \
     " && \
 
     echo "Preparing directories..." && \

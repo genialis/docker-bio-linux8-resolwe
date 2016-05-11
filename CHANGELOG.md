@@ -22,6 +22,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
   - argparse
   - chemut
   - devtools
+  - RNASeqT
 - Bioconductor R packages:
   - Rsamtools
   - reshape2
