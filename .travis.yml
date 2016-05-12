@@ -11,11 +11,16 @@ env:
     - REPO=resolwe/bio-linux8-resolwe
     - COMMIT=${TRAVIS_COMMIT::8}
 
-language: bash
+language: python
+
+python: "3.5"
 
 install:
   # Docker Official Images Test Suite
   - git clone https://github.com/docker-library/official-images.git ~/official-images
+  # docker-py (NOTE: version 1.5.0 is the latest version compatible with the
+  # Docker daemon currently provided by Travis CI)
+  - pip install docker-py==1.5.0
 
 script:
   - docker build -t $REPO:$COMMIT .
@@ -23,6 +28,7 @@ script:
   - ~/official-images/test/run.sh $REPO:$COMMIT
 
 after_success:
+  - ./.scripts/docker-image-size-change.py $REPO $COMMIT
   - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then ./.scripts/push_to_docker_hub.sh; fi
 
 after_script:

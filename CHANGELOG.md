@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Script that calculates the change in size between the base and the new Docker
+  image
 - JBrowse 1.12.0.
 - BEDOPS 2.4.15.
 - GenomeTools 1.5.3.
