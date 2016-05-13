@@ -24,13 +24,13 @@ docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
 # tag builds on the "master" branch with the "latest" tag
 if [[ $TRAVIS_BRANCH == "master" ]]; then
     echo "Tagging Docker image $REPO:$COMMIT as $REPO:latest"
-    docker tag $REPO:$COMMIT $REPO:latest
+    docker tag --force=true $REPO:$COMMIT $REPO:latest
 fi
 
 # tag builds for git tags with the corresponding tags
 if [[ -n $TRAVIS_TAG ]]; then
     echo "Tagging Docker image $REPO:$COMMIT as $REPO:$TRAVIS_TAG"
-    docker tag $REPO:$COMMIT $REPO:$TRAVIS_TAG
+    docker tag --force=true $REPO:$COMMIT $REPO:$TRAVIS_TAG
 fi
 
 docker push $REPO
