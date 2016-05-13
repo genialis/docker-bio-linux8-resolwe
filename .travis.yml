@@ -11,16 +11,19 @@ env:
     - REPO=resolwe/bio-linux8-resolwe
     - COMMIT=${TRAVIS_COMMIT::8}
 
-language: python
+language: bash
 
-python: "3.5"
+before_install:
+  # install Python 3 and pip
+  - sudo apt-get -qq update
+  - sudo apt-get install -y python3-pip
 
 install:
   # Docker Official Images Test Suite
   - git clone https://github.com/docker-library/official-images.git ~/official-images
-  # docker-py (NOTE: version 1.5.0 is the latest version compatible with the
+  # docker-py (NOTE: version 1.7.2 is the latest version compatible with the
   # Docker daemon currently provided by Travis CI)
-  - pip install docker-py==1.5.0
+  - sudo pip3 install docker-py==1.7.2
 
 script:
   - docker build -t $REPO:$COMMIT .
