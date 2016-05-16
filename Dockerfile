@@ -38,13 +38,14 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 
     echo "Installing apt packages..." && \
     sudo apt-get update && \
-    sudo apt-get -y build-dep libcurl4-gnutls-dev && \
     sudo apt-get -y install --no-install-recommends \
       bamliquidator=1.2.0-0ppa1~trusty \
       bedtools \
-      libcurl4-gnutls-dev \
       p7zip-full \
       python-pip \
+      r-cran-devtools \
+      # r-cran-devtools requires a newer version of r-cran-memoise
+      r-cran-memoise \
       tabix \
       && \
 
@@ -138,9 +139,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     echo "Installing R packages..." && \
     sudo Rscript --slave --no-save --no-restore-history -e " \
       package_list = c( \
-        'argparse', \
-        'devtools', \
-        'dplyr' \
+        'argparse' \
       ); \
       install.packages(package_list) \
     " && \
