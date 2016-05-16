@@ -122,9 +122,15 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 
     echo "Installing HISAT2..." && \
     HISAT_VERSION=2.0.3-beta && \
-    wget -q ftp://ftp.ccb.jhu.edu/pub/infphilo/hisat2/downloads/hisat2-$HISAT_VERSION-Linux_x86_64.zip -O hisat2-$HISAT_VERSION.zip && \
-    unzip -q hisat2-$HISAT_VERSION.zip && \
-    rm hisat2-$HISAT_VERSION.zip && \
+    HISAT_SHA1SUM=d7a06ddb4d263f47140871de3ddd6ae5fbbf9d14 && \
+    wget -q ftp://ftp.ccb.jhu.edu/pub/infphilo/hisat2/downloads/hisat2-$HISAT_VERSION-Linux_x86_64.zip -O hisat2.zip && \
+    echo "$HISAT_SHA1SUM *hisat2.zip" | sha1sum -c - && \
+    unzip -q hisat2.zip && \
+    rm hisat2.zip && \
+    # remove debugging files, documentation and examples
+    rm hisat2-$HISAT_VERSION/*-debug && \
+    rm -r hisat2-$HISAT_VERSION/doc && \
+    rm -r hisat2-$HISAT_VERSION/example && \
     echo "PATH=\$PATH:~/hisat2-$HISAT_VERSION" >> ~/.bash_profile && \
 
     echo "Installing R packages..." && \
