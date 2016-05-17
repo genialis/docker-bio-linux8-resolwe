@@ -3,7 +3,7 @@ All notable changes to the docker-bio-linux8-resolwe project will be documented
 in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## 0.2.0 - 2016-05-17
 
 ### Added
 
