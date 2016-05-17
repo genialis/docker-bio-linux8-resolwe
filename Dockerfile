@@ -30,9 +30,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     echo "  - $NPROC processing units available" && \
     echo "  - $(free -h | grep Mem | awk '{print $2}') of memory available" && \
 
-    echo "Preparing directory for auxiliary data..." && \
-    mkdir auxiliary_data && \
-
     echo "Adding Bradner Lab's pipeline PPA..." && \
     sudo add-apt-repository -y ppa:bradner-computation/pipeline && \
 
@@ -164,13 +161,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
       install_github('jkokosar/RNASeqT') \
     " && \
 
-    echo "Preparing directories..." && \
-    mkdir upload && \
-    mkdir data && \
-
     echo "Cleaning up..." && \
     sudo apt-get clean && \
     sudo rm -rf /var/lib/apt/lists/*
-
-
-WORKDIR /home/biolinux/data

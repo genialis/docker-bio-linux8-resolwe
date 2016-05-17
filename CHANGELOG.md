@@ -3,6 +3,19 @@ All notable changes to the docker-bio-linux8-resolwe project will be documented
 in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+### Changed
+
+- No longer set `WORKDIR` to `/home/biolinux/data`.
+
+### Removed
+
+- Remove creation of `~/auxiliary_data` directory since it is no longer
+  necessary.
+- Remove creation of `~/data` and `~/upload` directories since they will get
+  automatically created when volumes are mounted from the host.
+
 ## 0.2.0 - 2016-05-17
 
 ### Added
