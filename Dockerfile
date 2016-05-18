@@ -19,9 +19,9 @@ FROM resolwe/bio-linux8
 MAINTAINER Genialis <dev-team@genialis.com>
 
 # XXX: Remove this step after updating resolwe-runtime-utils
-ADD re-import.sh re-import.sh
+COPY re-import.sh re-import.sh
 # XXX: Remove this step after updating resolwe-runtime-utils
-ADD curlprogress.py /usr/local/bin/curlprogress.py
+COPY curlprogress.py /usr/local/bin/
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
 
