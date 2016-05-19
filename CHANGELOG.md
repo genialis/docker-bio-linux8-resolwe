@@ -5,6 +5,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+### Added
+
+- Script serving as container's entrypoint executable that enables
+  dynamically setting user and group IDs of the user running in the container
+  by passing them via environment variables.
+- Documentation on using the image, including mounting a local directory inside
+  the container and passing the host user's user and group IDs to the container
+  via environment variables.
+- gosu 1.9.
+
 ### Changed
 
 - No longer set `WORKDIR` to `/home/biolinux/data`.

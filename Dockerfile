@@ -18,6 +18,8 @@ FROM resolwe/bio-linux8
 
 MAINTAINER Genialis <dev-team@genialis.com>
 
+COPY docker-entrypoint.sh /
+
 # XXX: Remove this step after updating resolwe-runtime-utils
 COPY re-import.sh re-import.sh
 # XXX: Remove this step after updating resolwe-runtime-utils
@@ -45,6 +47,19 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
       r-cran-memoise \
       tabix \
       && \
+
+    echo "Installing gosu..." && \
+    GOSU_VERSION=1.9 && \
+    sudo wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" && \
+    # check gosu authenticity using gnupg
+    sudo wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" && \
+    export GNUPGHOME="$(mktemp -d)" && \
+    gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 && \
+    gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu && \
+    sudo rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc && \
+    # make gosu executable
+    sudo chmod +x /usr/local/bin/gosu && \
+    sudo gosu nobody true && \
 
     echo "Enabling vcfutils.pl from samtools package..." && \
     sudo ln -s /usr/share/samtools/vcfutils.pl /usr/local/bin/vcfutils.pl && \
@@ -164,3 +179,10 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     echo "Cleaning up..." && \
     sudo apt-get clean && \
     sudo rm -rf /var/lib/apt/lists/*
+
+# XXX: Remove this after converting the whole Dockerfile to run as root
+USER root
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/bin/bash"]
