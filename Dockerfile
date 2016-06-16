@@ -65,7 +65,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     sudo ln -s /usr/share/samtools/vcfutils.pl /usr/local/bin/vcfutils.pl && \
 
     echo "Installing resolwe-runtime-utils..." && \
-    sudo pip install resolwe-runtime-utils==0.2.0 && \
+    sudo pip install resolwe-runtime-utils==1.0.0 && \
     # XXX: Remove this hack after updating resolwe-runtime-utils
     echo 're-checkrc() { _re-checkrc $? "$@"; }' >> ~/.bash_profile && \
     # XXX: Remove this hack after updating resolwe-runtime-utils
