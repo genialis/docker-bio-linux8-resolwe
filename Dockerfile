@@ -45,6 +45,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
       r-cran-devtools \
       # r-cran-devtools requires a newer version of r-cran-memoise
       r-cran-memoise \
+      # chemut requires a newer version of r-cran-stringi
+      r-cran-stringi \
       tabix \
       && \
 
