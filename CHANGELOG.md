@@ -18,6 +18,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - PyPy 2.2.1.
 - HTSeq 0.6.1p1.
 - pysam 0.9.1.4.
+- xlrd (currently, 0.9.2).
 
 ### Changed
 

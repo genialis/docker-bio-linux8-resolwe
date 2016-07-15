@@ -43,6 +43,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
       p7zip-full \
       python-pip \
       python-sklearn \
+      python-xlrd \
       r-cran-devtools \
       # r-cran-devtools requires a newer version of r-cran-memoise
       r-cran-memoise \
