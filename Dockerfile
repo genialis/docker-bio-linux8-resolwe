@@ -49,6 +49,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
       # chemut requires a newer version of r-cran-stringi
       r-cran-stringi \
       tabix \
+      pypy \
       && \
 
     echo "Installing gosu..." && \

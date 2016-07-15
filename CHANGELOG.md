@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
   via environment variables.
 - gosu 1.9.
 - scikit-learn 0.14.1.
+- PyPy 2.2.1.
 
 ### Changed
 
