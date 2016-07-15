@@ -17,6 +17,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - scikit-learn 0.14.1.
 - PyPy 2.2.1.
 - HTSeq 0.6.1p1.
+- pysam 0.9.1.4.
 
 ### Changed
 

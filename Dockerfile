@@ -96,6 +96,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     echo "Installing HTSeq..." && \
     sudo pip install HTSeq==0.6.1p1 && \
 
+    echo "Installing pysam..." && \
+    sudo pip install pysam==0.9.1.4 && \
+
     echo "Installing JBrowse..." && \
     JBROWSE_VERSION=1.12.0 && \
     JBROWSE_SHA1SUM=c74adeb9840ae5c9348e59a9054fa93cf68d0402 && \
