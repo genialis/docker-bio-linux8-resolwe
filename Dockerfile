@@ -93,6 +93,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     echo "Installing cutadapt..." && \
     sudo pip install cutadapt==1.9.1 && \
 
+    echo "Installing HTSeq..." && \
+    sudo pip install HTSeq==0.6.1p1 && \
+
     echo "Installing JBrowse..." && \
     JBROWSE_VERSION=1.12.0 && \
     JBROWSE_SHA1SUM=c74adeb9840ae5c9348e59a9054fa93cf68d0402 && \
