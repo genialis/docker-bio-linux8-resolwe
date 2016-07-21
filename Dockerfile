@@ -49,6 +49,15 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
       # chemut requires a newer version of r-cran-stringi
       r-cran-stringi \
       tabix \
+      # required for building matplotlib (deepTools requires a newer version of matplotlib)
+      libfreetype6-dev \
+      pypy \
+      libgsl0-dev \
+      # required for compiling R package arrayQualityMetrics
+      libxt-dev \
+      libcairo2-dev \
+      xml2 \
+      libcurl3 \
       && \
 
     echo "Installing gosu..." && \
@@ -66,6 +75,10 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 
     echo "Enabling vcfutils.pl from samtools package..." && \
     sudo ln -s /usr/share/samtools/vcfutils.pl /usr/local/bin/vcfutils.pl && \
+
+    echo "Enabling SortMeRNA package utils scripts..." && \
+    sudo ln -s /usr/share/sortmerna/scripts/merge-paired-reads.sh /usr/local/bin/merge-paired-reads.sh && \
+    sudo ln -s /usr/share/sortmerna/scripts/unmerge-paired-reads.sh /usr/local/bin/unmerge-paired-reads.sh && \
 
     echo "Installing resolwe-runtime-utils..." && \
     sudo pip install resolwe-runtime-utils==1.0.0 && \
@@ -91,6 +104,25 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 
     echo "Installing cutadapt..." && \
     sudo pip install cutadapt==1.9.1 && \
+
+    echo "Installing htseq..." && \
+    sudo pip install htseq==0.6.1 && \
+
+    echo "Installing pysam..." && \
+    sudo pip install pysam==0.9.1.3 && \
+
+    echo "Installing xlrd..." && \
+    sudo pip install xlrd==1.0.0 && \
+
+    echo "Installing Orange..." && \
+    sudo pip install orange==2.7.8 && \
+
+    echo "Installing deepTools..." && \
+    sudo pip install deeptools==2.3.1 && \
+
+    echo "Installing biox..." && \
+    sudo pip install hg+https://bitbucket.org/mstajdohar/biox@9bcf3b0#egg=biox && \
+    sudo mv /usr/local/lib/python2.7/dist-packages/biox/config_example.py /usr/local/lib/python2.7/dist-packages/biox/config.py && \
 
     echo "Installing JBrowse..." && \
     JBROWSE_VERSION=1.12.0 && \
@@ -151,6 +183,84 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     rm -r hisat2-$HISAT_VERSION/example && \
     echo "PATH=\$PATH:~/hisat2-$HISAT_VERSION" >> ~/.bash_profile && \
 
+    echo "Installing STAR..." && \
+    STAR_VERSION=2.5.2a && \
+    STAR_SHA1SUM=65f3fb6aca880caac942dfa9285276fba71edf17 && \
+    wget -q https://github.com/alexdobin/STAR/archive/$STAR_VERSION.tar.gz -O STAR.tar.gz && \
+    echo "$STAR_SHA1SUM *STAR.tar.gz" | sha1sum -c - && \
+    mkdir STAR-$STAR_VERSION && \
+    tar -xf STAR.tar.gz --directory STAR-$STAR_VERSION --strip-components=1 && \
+    rm STAR.tar.gz && \
+    rm -r STAR-$STAR_VERSION/doc && \
+    rm -r STAR-$STAR_VERSION/source && \
+    rm -r STAR-$STAR_VERSION/extras && \
+    rm -r STAR-$STAR_VERSION/bin/Linux_x86_64 && \
+    rm -r STAR-$STAR_VERSION/bin/MacOSX_x86_64 && \
+    echo "PATH=\$PATH:~/STAR-$STAR_VERSION/bin/Linux_x86_64_static" >> ~/.bash_profile && \
+
+    echo "Installing kentUtils..." && \
+    KU_VERSION=302.1.0 && \
+    KU_SHA1SUM=810cec2881472090f8d92f1f07adf8703bcda5ae && \
+    wget -q https://codeload.github.com/ENCODE-DCC/kentUtils/zip/v$KU_VERSION -O kentUtils.zip && \
+    echo "$KU_SHA1SUM *kentUtils.zip" | sha1sum -c - && \
+    unzip -q kentUtils.zip && \
+    rm kentUtils.zip && \
+    rm -r kentUtils-$KU_VERSION/src && \
+    find kentUtils-$KU_VERSION/bin/linux.x86_64 -type f -not -name 'bedGraphToBigWig' -print0 | xargs -0 rm -- && \
+    echo "PATH=\$PATH:~/kentUtils-$KU_VERSION/bin/linux.x86_64" >> ~/.bash_profile && \
+
+    echo "Installing TransDecoder..." && \
+    TD_VERSION=3.0.0 && \
+    TD_SHA1SUM=6c798327cd41773b34b36152162623613a3fdda9 && \
+    wget -q https://codeload.github.com/TransDecoder/TransDecoder/tar.gz/v$TD_VERSION -O TransDecoder.tar.gz && \
+    echo "$TD_SHA1SUM *TransDecoder.tar.gz" | sha1sum -c - && \
+    mkdir TransDecoder-$TD_VERSION && \
+    tar -xf TransDecoder.tar.gz --directory TransDecoder-$TD_VERSION --strip-components=1 && \
+    rm TransDecoder.tar.gz && \
+    cd TransDecoder-$TD_VERSION && \
+    make && \
+    rm -r sample_data && \
+    cd .. && \
+    echo "PATH=\$PATH:~/TransDecoder-$TD_VERSION" >> ~/.bash_profile && \
+    echo "PATH=\$PATH:~/TransDecoder-$TD_VERSION/util" >> ~/.bash_profile && \
+
+    echo "Installing gotea..." && \
+    GOTEA_VERSION=0.0.2 && \
+    GOTEA_SHA1SUM=5dd7724bfb8d05be0238957ef719479804dca961 && \
+    wget -q https://codeload.github.com/genialis/gotea/tar.gz/$GOTEA_VERSION -O gotea.tar.gz && \
+    echo "$GOTEA_SHA1SUM *gotea.tar.gz" | sha1sum -c - && \
+    mkdir gotea-$GOTEA_VERSION && \
+    tar -xf gotea.tar.gz --directory gotea-$GOTEA_VERSION --strip-components=1 && \
+    rm gotea.tar.gz && \
+    cd gotea-$GOTEA_VERSION && \
+    make && \
+    cd .. && \
+    echo "PATH=\$PATH:~/gotea-$GOTEA_VERSION" >> ~/.bash_profile && \
+
+    echo "Installing ea-utils..." && \
+    EA_UTILS_VERSION=1.1.2-537 && \
+    EA_UTILS_SHA1SUM=688bddb1891ed186be0070d0d581816a35f7eb4e && \
+    wget -q https://ea-utils.googlecode.com/files/ea-utils.${EA_UTILS_VERSION}.tar.gz -O ea-utils.tar.gz && \
+    echo "$EA_UTILS_SHA1SUM *ea-utils.tar.gz" | sha1sum -c - && \
+    mkdir ea-utils-$EA_UTILS_VERSION && \
+    tar -xf ea-utils.tar.gz --directory ea-utils-$EA_UTILS_VERSION --strip-components=1 && \
+    rm ea-utils.tar.gz && \
+    cd ea-utils-$EA_UTILS_VERSION && \
+    make && \
+    cd .. && \
+    echo "PATH=\$PATH:~/ea-utils-$EA_UTILS_VERSION" >> ~/.bash_profile && \
+
+    echo "Installing Prinseq-LITE..." && \
+    PRINSEQ_VERSION=0.20.4 && \
+    PRINSEQ_SHA1SUM=b8560cdc059e9b4cbb1bab5142de29bde5d33f61 && \
+    wget -q http://sourceforge.net/projects/prinseq/files/standalone/prinseq-lite-${PRINSEQ_VERSION}.tar.gz/download -O prinseq-lite.tar.gz && \
+    echo "$PRINSEQ_SHA1SUM *prinseq-lite.tar.gz" | sha1sum -c - && \
+    mkdir prinseq-lite-$PRINSEQ_VERSION && \
+    tar -xf prinseq-lite.tar.gz --directory prinseq-lite-$PRINSEQ_VERSION --strip-components=1 && \
+    rm prinseq-lite.tar.gz && \
+    find prinseq-lite-0.20.4 -iname *.pl -type f | xargs chmod 0755 && \
+    echo "PATH=\$PATH:~/prinseq-lite-$PRINSEQ_VERSION" >> ~/.bash_profile && \
+
     echo "Installing R packages..." && \
     sudo Rscript --slave --no-save --no-restore-history -e " \
       package_list = c( \
@@ -162,11 +272,29 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     echo "Installing Bioconductor R packages..." && \
     sudo Rscript --slave --no-save --no-restore-history -e " \
       package_list = c( \
+        'arrayQualityMetrics', \
+        'makecdfenv', \
+        'oligo', \
+        'DESeq2', \
+        'rtracklayer', \
         'Rsamtools', \
         'reshape2', \
         'seqinr', \
         'stringr', \
-        'tidyr' \
+        'tidyr', \
+        'baySeq', \
+        'pd.hugene.2.0.st', \
+        'pd.mogene.2.0.st', \
+        'pd.mogene.1.0.st.v1', \
+        'moe430acdf', \
+        'hgu133plus2cdf', \
+        'mouse4302cdf', \
+        'mogene10stv1cdf', \
+        'mirna20cdf', \
+        'hgu95av2cdf', \
+        'hgu133acdf', \
+        'hgu133a2cd', \
+        'hthgu133acd' \
       ); \
       source('http://www.bioconductor.org/biocLite.R'); \
       biocLite(package_list) \
