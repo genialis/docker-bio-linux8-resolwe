@@ -69,6 +69,10 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     echo "Enabling vcfutils.pl from samtools package..." && \
     sudo ln -s /usr/share/samtools/vcfutils.pl /usr/local/bin/vcfutils.pl && \
 
+    echo "Enabling utility scripts from SortMeRNA package..." && \
+    sudo ln -s /usr/share/sortmerna/scripts/merge-paired-reads.sh /usr/local/bin/merge-paired-reads.sh && \
+    sudo ln -s /usr/share/sortmerna/scripts/unmerge-paired-reads.sh /usr/local/bin/unmerge-paired-reads.sh && \
+
     echo "Installing resolwe-runtime-utils..." && \
     sudo pip install resolwe-runtime-utils==1.0.0 && \
     # XXX: Remove this hack after updating resolwe-runtime-utils

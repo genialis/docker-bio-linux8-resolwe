@@ -19,6 +19,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - HTSeq 0.6.1p1.
 - pysam 0.9.1.4.
 - xlrd (currently, 0.9.2).
+- Utility scripts from SortMeRNA package.
 
 ### Changed
 
