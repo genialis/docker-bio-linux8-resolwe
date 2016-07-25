@@ -81,7 +81,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     sudo ln -s /usr/share/sortmerna/scripts/unmerge-paired-reads.sh /usr/local/bin/unmerge-paired-reads.sh && \
 
     echo "Installing resolwe-runtime-utils..." && \
-    sudo pip install resolwe-runtime-utils==1.0.0 && \
+    sudo pip install resolwe-runtime-utils==1.1.0 && \
     # XXX: Remove this hack after updating resolwe-runtime-utils
     echo 're-checkrc() { _re-checkrc $? "$@"; }' >> ~/.bash_profile && \
     # XXX: Remove this hack after updating resolwe-runtime-utils
