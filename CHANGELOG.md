@@ -24,7 +24,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 - No longer set `WORKDIR` to `/home/biolinux/data`.
-- Update Resolwe Runtime Utilities to 1.0.0.
+- Update Resolwe Runtime Utilities to 1.1.0.
 
 ### Removed
 
