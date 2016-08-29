@@ -43,6 +43,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
       p7zip-full \
       python-pip \
       python-sklearn \
+      python-xlrd \
       r-cran-devtools \
       # r-cran-devtools requires a newer version of r-cran-memoise
       r-cran-memoise \
@@ -58,6 +59,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
       libcairo2-dev \
       xml2 \
       libcurl3 \
+      trimmomatic \
+      ea-utils \
       && \
 
     echo "Installing gosu..." && \
@@ -76,7 +79,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     echo "Enabling vcfutils.pl from samtools package..." && \
     sudo ln -s /usr/share/samtools/vcfutils.pl /usr/local/bin/vcfutils.pl && \
 
-    echo "Enabling SortMeRNA package utils scripts..." && \
+    echo "Enabling utility scripts from SortMeRNA package..." && \
     sudo ln -s /usr/share/sortmerna/scripts/merge-paired-reads.sh /usr/local/bin/merge-paired-reads.sh && \
     sudo ln -s /usr/share/sortmerna/scripts/unmerge-paired-reads.sh /usr/local/bin/unmerge-paired-reads.sh && \
 
@@ -105,11 +108,11 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     echo "Installing cutadapt..." && \
     sudo pip install cutadapt==1.9.1 && \
 
-    echo "Installing htseq..." && \
-    sudo pip install htseq==0.6.1 && \
+    echo "Installing HTSeq..." && \
+    sudo pip install htseq==0.6.1p1 && \
 
     echo "Installing pysam..." && \
-    sudo pip install pysam==0.9.1.3 && \
+    sudo pip install pysam==0.9.1.4 && \
 
     echo "Installing xlrd..." && \
     sudo pip install xlrd==1.0.0 && \
@@ -119,6 +122,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 
     echo "Installing deepTools..." && \
     sudo pip install deeptools==2.3.1 && \
+
+    echo "Installing bamplot..." && \
+    sudo pip install bamplot==0.9.0 && \
 
     echo "Installing biox..." && \
     sudo pip install hg+https://bitbucket.org/mstajdohar/biox@9bcf3b0#egg=biox && \
@@ -237,19 +243,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     cd .. && \
     echo "PATH=\$PATH:~/gotea-$GOTEA_VERSION" >> ~/.bash_profile && \
 
-    echo "Installing ea-utils..." && \
-    EA_UTILS_VERSION=1.1.2-537 && \
-    EA_UTILS_SHA1SUM=688bddb1891ed186be0070d0d581816a35f7eb4e && \
-    wget -q https://ea-utils.googlecode.com/files/ea-utils.${EA_UTILS_VERSION}.tar.gz -O ea-utils.tar.gz && \
-    echo "$EA_UTILS_SHA1SUM *ea-utils.tar.gz" | sha1sum -c - && \
-    mkdir ea-utils-$EA_UTILS_VERSION && \
-    tar -xf ea-utils.tar.gz --directory ea-utils-$EA_UTILS_VERSION --strip-components=1 && \
-    rm ea-utils.tar.gz && \
-    cd ea-utils-$EA_UTILS_VERSION && \
-    make && \
-    cd .. && \
-    echo "PATH=\$PATH:~/ea-utils-$EA_UTILS_VERSION" >> ~/.bash_profile && \
-
     echo "Installing Prinseq-LITE..." && \
     PRINSEQ_VERSION=0.20.4 && \
     PRINSEQ_SHA1SUM=b8560cdc059e9b4cbb1bab5142de29bde5d33f61 && \
@@ -260,6 +253,16 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     rm prinseq-lite.tar.gz && \
     find prinseq-lite-0.20.4 -iname *.pl -type f | xargs chmod 0755 && \
     echo "PATH=\$PATH:~/prinseq-lite-$PRINSEQ_VERSION" >> ~/.bash_profile && \
+
+    echo "Installing Subread..." && \
+    SUBREAD_VERSION=1.5.1 && \
+    SUBREAD_SHA1SUM=442a991713eea8d3274a31522084897cef990829 && \
+    wget http://superb-sea2.dl.sourceforge.net/project/subread/subread-${SUBREAD_VERSION}/subread-${SUBREAD_VERSION}-Linux-x86_64.tar.gz -O subread.tar.gz && \
+    echo "$SUBREAD_SHA1SUM *subread.tar.gz" | sha1sum -c - && \
+    mkdir subread-$SUBREAD_VERSION && \
+    tar -xf subread.tar.gz --directory subread-$SUBREAD_VERSION --strip-components=1 && \
+    rm subread.tar.gz && \
+    echo "PATH=\$PATH:~/subread-$SUBREAD_VERSION/bin" >> ~/.bash_profile && \
 
     echo "Installing R packages..." && \
     sudo Rscript --slave --no-save --no-restore-history -e " \
@@ -294,7 +297,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
         'hgu95av2cdf', \
         'hgu133acdf', \
         'hgu133a2cd', \
-        'hthgu133acd' \
+        'hthgu133acd', \
+        'RUVSeq', \
+        'edgeR' \
       ); \
       source('http://www.bioconductor.org/biocLite.R'); \
       biocLite(package_list) \
@@ -306,6 +311,15 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
       install_github('jkokosar/chemut'); \
       install_github('jkokosar/RNASeqT') \
     " && \
+
+    echo "Installing mirna30cdf package..." && \
+    wget "https://data.genialis.com//repo/1955e143-ce69-4d5b-86a5-3d937002eed8/afd7f1a89a5150542b8209f512c087fbf36b89df/?file_name=mirna30.cdf&op=download&t=239276adc7&p=/rochester/CDF/mirna30.cdf" -O mirna30.cdf && \
+    sudo /usr/bin/Rscript --slave --no-save --no-restore-history -e " \
+        library(methods); \
+        library('makecdfenv'); \
+        make.cdf.package('mirna30.cdf', species ='H_sapiens', packagename='mirna30cdf') \
+    " && \
+    sudo R CMD INSTALL mirna30cdf && \
 
     echo "Cleaning up..." && \
     sudo apt-get clean && \
