@@ -110,7 +110,7 @@ re-import() {
       fi
     }
 
-    regex='^(https?|ftp)://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]'
+    regex='^(https?|ftp)://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]$'
     if [[ "$TEMP" =~ $regex ]]
     then
         URL=${TEMP}
