@@ -272,6 +272,17 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
       install.packages(package_list) \
     " && \
 
+    echo "Installing HSQutils..." && \
+    HSQUTILS_VERSION=1.0 && \
+    HSQUTILS_SHA1SUM=1e5299cd8c5d6e8e8fd621fdfa049bd436c782cc && \
+    wget -q https://github.com/NimbleGen/bioinformatics/releases/download/v1.0/hsqutils_v1_0.zip -O hsqutils.zip && \
+    echo "$HSQUTILS_SHA1SUM *hsqutils.zip" | sha1sum -c - && \
+    unzip -q hsqutils.zip && \
+    rm hsqutils.zip && \
+    echo '#!/bin/sh' | sudo tee -a /usr/bin/hsqutils && \
+    echo 'exec java -Xmx4g -Xms4g -jar ~/hsqutils_v1_0/hsqutils.jar "$@"' | sudo tee -a /usr/bin/hsqutils && \
+    sudo chmod +x /usr/bin/hsqutils && \
+
     echo "Installing Bioconductor R packages..." && \
     sudo Rscript --slave --no-save --no-restore-history -e " \
       package_list = c( \
