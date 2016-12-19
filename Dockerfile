@@ -42,6 +42,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
       bedtools \
       p7zip-full \
       python-pip \
+      python3-pip \
       python-sklearn \
       python-xlrd \
       r-cran-devtools \
@@ -125,6 +126,10 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 
     echo "Installing bamplot..." && \
     sudo pip install bamplot==0.9.0 && \
+
+    echo "Installing resdk..." && \
+    sudo pip install resdk==1.5.2 && \
+    sudo pip3 install resdk==1.5.2 && \
 
     echo "Installing biox..." && \
     sudo pip install hg+https://bitbucket.org/mstajdohar/biox@9bcf3b0#egg=biox && \
