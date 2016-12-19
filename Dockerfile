@@ -283,6 +283,16 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     echo 'exec java -Xmx4g -Xms4g -jar ~/hsqutils_v1_0/hsqutils.jar "$@"' | sudo tee -a /usr/bin/hsqutils && \
     sudo chmod +x /usr/bin/hsqutils && \
 
+    echo "Installing sra-toolkit..." && \
+    SRA_TOOLKIT_VERSION=2.8.0 && \
+    SRA_TOOLKIT_SHA1SUM=fcfcacde92e0d4633ea9ba23fec5945f31a32c39 && \
+    wget -q ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/$SRA_TOOLKIT_VERSION/sratoolkit.$SRA_TOOLKIT_VERSION-ubuntu64.tar.gz -O sra_toolkit.tar.gz && \
+    echo "$SRA_TOOLKIT_SHA1SUM *sra_toolkit.tar.gz" | sha1sum -c - && \
+    mkdir sra_toolkit-$SRA_TOOLKIT_VERSION && \
+    tar -xf sra_toolkit.tar.gz --directory sra_toolkit-$SRA_TOOLKIT_VERSION --strip-components=1 && \
+    rm sra_toolkit.tar.gz && \
+    echo "PATH=\$PATH:~/sra_toolkit-$SRA_TOOLKIT_VERSION/bin" >> ~/.bash_profile && \
+
     echo "Installing Bioconductor R packages..." && \
     sudo Rscript --slave --no-save --no-restore-history -e " \
       package_list = c( \
