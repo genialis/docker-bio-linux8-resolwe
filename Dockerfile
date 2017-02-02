@@ -298,6 +298,13 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     rm sra_toolkit.tar.gz && \
     echo "PATH=\$PATH:~/sra_toolkit-$SRA_TOOLKIT_VERSION/bin" >> ~/.bash_profile && \
 
+    echo "installing MOABS..." && \
+    git clone https://github.com/sunnyisgalaxy/moabs.git && \
+    cd moabs && \
+    find . -depth -not \( -path './bin*' -o \( -type d -not -empty \) \) -delete && \
+    cd .. && \
+    echo "PATH=\$PATH:~/moabs/bin" >> ~/.bash_profile && \
+
     echo "Installing Bioconductor R packages..." && \
     sudo Rscript --slave --no-save --no-restore-history -e " \
       package_list = c( \
