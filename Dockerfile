@@ -316,6 +316,15 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     sudo chmod +x /usr/bin/snpEff && \
     sudo chmod +x /usr/bin/SnpSift && \
 
+    echo "installing loFreq..." && \
+    LOFREQ_VERSION=2.1.2 && \
+    LOFREQ_SHA1SUM=5c81eb3c1377c116646859ff4ca8c62118312ec6 && \
+    wget -q https://heanet.dl.sourceforge.net/project/lofreq/lofreq_star-${LOFREQ_VERSION}_linux-x86-64.tgz -O lofreq.tgz && \
+    echo "$LOFREQ_SHA1SUM *lofreq.tgz" | sha1sum -c - && \
+    tar -zxvf lofreq.tgz && \
+    rm lofreq.tgz && \
+    echo "PATH=\$PATH:~/lofreq_star-${LOFREQ_VERSION}/bin/" >> ~/.bash_profile && \
+
     echo "Installing Bioconductor R packages..." && \
     sudo Rscript --slave --no-save --no-restore-history -e " \
       package_list = c( \
