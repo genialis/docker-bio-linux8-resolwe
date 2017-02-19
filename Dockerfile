@@ -305,6 +305,17 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     cd .. && \
     echo "PATH=\$PATH:~/moabs/bin" >> ~/.bash_profile && \
 
+    echo "installing snpEff..." && \
+    wget http://sourceforge.net/projects/snpeff/files/snpEff_latest_core.zip && \
+    unzip snpEff_latest_core.zip && \
+    cd snpEff && \
+    java -jar snpEff.jar download GRCh37.75 && \
+    cd .. && \
+    echo 'exec java -Xmx16g -jar ~/snpEff/snpEff.jar "$@"' | sudo tee -a /usr/bin/snpEff && \
+    echo 'exec java -Xmx16g -jar ~/snpEff/SnpSift.jar "$@"' | sudo tee -a /usr/bin/SnpSift && \
+    sudo chmod +x /usr/bin/snpEff && \
+    sudo chmod +x /usr/bin/SnpSift && \
+
     echo "Installing Bioconductor R packages..." && \
     sudo Rscript --slave --no-save --no-restore-history -e " \
       package_list = c( \
