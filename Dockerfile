@@ -55,6 +55,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
       libfreetype6-dev \
       pypy \
       libgsl0-dev \
+      # required for building lxml python package
+      libxml2-dev \
+      libxslt1-dev \
       # required for compiling R package arrayQualityMetrics
       libxt-dev \
       libcairo2-dev \
@@ -126,6 +129,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 
     echo "Installing bamplot..." && \
     sudo pip install bamplot==0.9.0 && \
+
+    echo "Installing lxml..." && \
+    sudo pip install lxml==3.7.3 && \
 
     echo "Installing resdk..." && \
     sudo pip install resdk==1.7.0 && \
