@@ -128,8 +128,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     sudo pip install bamplot==0.9.0 && \
 
     echo "Installing resdk..." && \
-    sudo pip install resdk==1.5.2 && \
-    sudo pip3 install resdk==1.5.2 && \
+    sudo pip install resdk==1.7.0 && \
+    sudo pip3 install resdk==1.7.0 && \
 
     echo "Installing biox..." && \
     sudo pip install hg+https://bitbucket.org/mstajdohar/biox@9bcf3b0#egg=biox && \
