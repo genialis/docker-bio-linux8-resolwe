@@ -161,6 +161,10 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
         -o \( -type d -not -empty \) \
     \) -delete && \
     echo "PATH=\$PATH:~/JBrowse-$JBROWSE_VERSION/bin" >> ~/.bash_profile && \
+    # JBrowse's Perl scripts want to create files during runtime, however, we
+    # don't know which UID/GID will be used, so we just give permissions to
+    # everyone
+    chmod --recursive 777 extlib && \
     cd .. && \
 
     echo "Installing BEDOPS..." && \
