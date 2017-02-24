@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright 2016 The docker-bio-linux8-resolwe authors.
+# Copyright 2016, 2017 The docker-bio-linux8-resolwe authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,15 +22,22 @@
 set -e
 
 if [[ -v HOST_UID ]]; then
+    ORIG_HOME=$(getent passwd biolinux | cut -d : -f 6)
+    TEMP_HOME=$(mktemp --directory)
+    # change biolinux's home directory to avoid chown-ing all its files
+    usermod biolinux --home $TEMP_HOME
     # change biolinux user's ID to the given value (allow a non-unique value)
     usermod --uid $HOST_UID --non-unique biolinux
+    # revert biolinux's home directory to its original value
+    usermod biolinux --home $ORIG_HOME
+    # manually change user for hidden files in the home directory
+    chown $HOST_UID $ORIG_HOME/.*
 fi
 if [[ -v HOST_GID ]]; then
-    # manually change group for files in the home directory since groupmod
-    # command doesn't implement that
-    chown --from=:biolinux --recursive :$HOST_GID /home/biolinux
     # change biolinux group's ID to the given value (allow a non-unique value)
     groupmod --gid $HOST_GID --non-unique biolinux
+    # manually change group for hidden files in the home directory
+    chown :$HOST_GID $ORIG_HOME/.*
 fi
 
 # switch to user biolinux and execute the given command
