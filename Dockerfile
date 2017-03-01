@@ -35,6 +35,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     echo "Adding Bradner Lab's pipeline PPA..." && \
     sudo add-apt-repository -y ppa:bradner-computation/pipeline && \
 
+    sudo rm -f /etc/apt/preferences.d/disable-install-of-packages.pref && \
+
     echo "Installing apt packages..." && \
     sudo apt-get update && \
     sudo apt-get -y install --no-install-recommends \
@@ -65,6 +67,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
       libcurl3 \
       trimmomatic \
       ea-utils \
+      texlive-latex-base \
+      texlive-latex-recommended \
       && \
 
     echo "Installing gosu..." && \
@@ -328,7 +332,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     echo "installing loFreq..." && \
     LOFREQ_VERSION=2.1.2 && \
     LOFREQ_SHA1SUM=5c81eb3c1377c116646859ff4ca8c62118312ec6 && \
-    wget -q https://heanet.dl.sourceforge.net/project/lofreq/lofreq_star-${LOFREQ_VERSION}_linux-x86-64.tgz -O lofreq.tgz && \
+    wget -q https://excellmedia.dl.sourceforge.net/project/lofreq/lofreq_star-${LOFREQ_VERSION}_linux-x86-64.tgz -O lofreq.tgz && \
     echo "$LOFREQ_SHA1SUM *lofreq.tgz" | sha1sum -c - && \
     tar -zxvf lofreq.tgz && \
     rm lofreq.tgz && \
