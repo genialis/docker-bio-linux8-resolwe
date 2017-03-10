@@ -334,6 +334,15 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     rm lofreq.tgz && \
     echo "PATH=\$PATH:~/lofreq_star-${LOFREQ_VERSION}/bin/" >> ~/.bash_profile && \
 
+    echo "installing BBMap..." && \
+    BBMAP_VERSION=36.99 && \
+    BBMAP_SHA1SUM=a9a8ff14d951703f5e399c48c340cd1165582721 && \
+    wget -q "https://downloads.sourceforge.net/project/bbmap/BBMap_${BBMAP_VERSION}.tar.gz" --output-document=BBMap.tar.gz && \
+    echo "$BBMAP_SHA1SUM *BBMap.tar.gz" | sha1sum -c - && \
+    tar -zxvf BBMap.tar.gz && \
+    rm BBMap.tar.gz && \
+    echo "PATH=\$PATH:~/bbmap/" >> ~/.bash_profile && \
+
     echo "Installing Bioconductor R packages..." && \
     sudo Rscript --slave --no-save --no-restore-history -e " \
       package_list = c( \
