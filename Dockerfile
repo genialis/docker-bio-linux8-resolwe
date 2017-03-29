@@ -351,6 +351,14 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     rm BBMap.tar.gz && \
     echo "PATH=\$PATH:~/bbmap/" >> ~/.bash_profile && \
 
+    echo "Installing primerclip..." && \
+    mkdir primerclip && \
+    cd primerclip && \
+    wget -q "https://data.genialis.com/repo/3f3f14d1-5100-46d5-af7b-abca7ff4a48f/292c647949ed795d6c73d8088cb839586e2287c6/?file_name=primerclip-v1&op=download&t=467d0f7b85&p=/tools/primerclip-v1" -O primerclip-v1 && \
+    chmod +x primerclip-v1 && \
+    echo "PATH=\$PATH:~/primerclip/" >> ~/.bash_profile && \
+    cd .. && \
+
     echo "Installing Bioconductor R packages..." && \
     sudo Rscript --slave --no-save --no-restore-history -e " \
       package_list = c( \
