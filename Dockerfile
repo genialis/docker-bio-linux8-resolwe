@@ -324,6 +324,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     echo "installing snpEff..." && \
     wget http://sourceforge.net/projects/snpeff/files/snpEff_latest_core.zip && \
     unzip snpEff_latest_core.zip && \
+    rm snpEff_latest_core.zip && \
     cd snpEff && \
     java -jar snpEff.jar download GRCh37.75 && \
     cd .. && \
