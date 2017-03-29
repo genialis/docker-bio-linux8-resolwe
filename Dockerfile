@@ -107,6 +107,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     # XXX: Remove this after updating resolwe-runtime-utils
     echo "[[ -f ~/.bash_profile ]] && source ~/.bash_profile" >> ~/.bashrc && \
 
+    echo "Upgrade pandas Python package..." && \
+    sudo pip install -U pandas==0.19.2 && \
+
     echo "Installing MACS2..." && \
     sudo pip install MACS2==2.1.1.20160309 && \
 
