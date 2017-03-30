@@ -295,9 +295,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     " && \
 
     echo "Installing HSQutils..." && \
-    HSQUTILS_SHA1SUM=5294c43a9485e0ed1e435a67683d638b903f1b9d && \
+    # HSQUTILS_SHA1SUM=5294c43a9485e0ed1e435a67683d638b903f1b9d && \
     wget -q https://github.com/NimbleGen/bioinformatics/releases/download/v1.0/hsqutils_v1_0.zip -O hsqutils.zip && \
-    echo "$HSQUTILS_SHA1SUM *hsqutils.zip" | sha1sum -c - && \
+    # echo "$HSQUTILS_SHA1SUM *hsqutils.zip" | sha1sum -c - && \
     unzip -q hsqutils.zip && \
     rm hsqutils.zip && \
     echo '#!/bin/sh' | sudo tee -a /usr/bin/hsqutils && \
