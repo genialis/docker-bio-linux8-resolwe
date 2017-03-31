@@ -295,9 +295,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     " && \
 
     echo "Installing HSQutils..." && \
-    # HSQUTILS_SHA1SUM=5294c43a9485e0ed1e435a67683d638b903f1b9d && \
+    HSQUTILS_SHA1SUM=c8b70282ebb96b1918ec31f215d8fd9a0e66de70 && \
     wget -q https://github.com/NimbleGen/bioinformatics/releases/download/v1.0/hsqutils_v1_0.zip -O hsqutils.zip && \
-    # echo "$HSQUTILS_SHA1SUM *hsqutils.zip" | sha1sum -c - && \
+    echo "$HSQUTILS_SHA1SUM *hsqutils.zip" | sha1sum -c - && \
     unzip -q hsqutils.zip && \
     rm hsqutils.zip && \
     echo '#!/bin/sh' | sudo tee -a /usr/bin/hsqutils && \
@@ -326,7 +326,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     unzip snpEff_latest_core.zip && \
     rm snpEff_latest_core.zip && \
     cd snpEff && \
-    java -jar snpEff.jar download GRCh37.75 && \
+    java -jar snpEff.jar download GRCh37.75 -v && \
     cd .. && \
     echo 'exec java -Xmx16g -jar ~/snpEff/snpEff.jar "$@"' | sudo tee -a /usr/bin/snpEff && \
     echo 'exec java -Xmx16g -jar ~/snpEff/SnpSift.jar "$@"' | sudo tee -a /usr/bin/SnpSift && \
