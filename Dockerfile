@@ -32,15 +32,11 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     echo "  - $NPROC processing units available" && \
     echo "  - $(free -h | grep Mem | awk '{print $2}') of memory available" && \
 
-    echo "Adding Bradner Lab's pipeline PPA..." && \
-    sudo add-apt-repository -y ppa:bradner-computation/pipeline && \
-
     sudo rm -f /etc/apt/preferences.d/disable-install-of-packages.pref && \
 
     echo "Installing apt packages..." && \
     sudo apt-get update && \
     sudo apt-get -y install --no-install-recommends \
-      bamliquidator=1.2.0-0ppa1~trusty \
       bedtools \
       p7zip-full \
       python-pip \
@@ -69,6 +65,19 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
       ea-utils \
       texlive-latex-base \
       texlive-latex-recommended \
+      # required to compile bamliquidator
+      libbam-dev \
+      libhdf5-serial-dev \
+      libboost-dev \
+      libboost-timer-dev \
+      libgoogle-perftools-dev \
+      libtbb-dev \
+      python-numpy \
+      python-pandas \
+      python-redis \
+      python-software-properties \
+      python-tables \
+      python-numexpr \
       && \
 
     echo "Installing gosu..." && \
@@ -139,6 +148,10 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 
     echo "Installing lxml..." && \
     sudo pip install lxml==3.7.3 && \
+
+    # Needed for bamliquidator plotting
+    echo "Installing bokeh..." && \
+    sudo pip install bokeh==0.9.3 && \
 
     echo "Installing resdk..." && \
     sudo pip install resdk==1.7.0 && \
@@ -264,6 +277,20 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     make && \
     cd .. && \
     echo "PATH=\$PATH:~/gotea-$GOTEA_VERSION" >> ~/.bash_profile && \
+
+    echo "Installing bamliquidator..." && \
+    BAMLIQUIDATOR_VERSION=v1.3 && \
+    BAMLIQUIDATOR_SHA1SUM=b9f032b71cc0231df60e18979d23605d7daa9e6d && \
+    wget -q https://github.com/BradnerLab/pipeline/archive/bamliquidator_$BAMLIQUIDATOR_VERSION.tar.gz -O bamliquidator.tar.gz && \
+    echo "$BAMLIQUIDATOR_SHA1SUM *bamliquidator.tar.gz" | sha1sum -c - && \
+    mkdir bamliquidator-$BAMLIQUIDATOR_VERSION && \
+    tar -xf bamliquidator.tar.gz --directory bamliquidator-$BAMLIQUIDATOR_VERSION --strip-components=1 && \
+    cd bamliquidator-$BAMLIQUIDATOR_VERSION/bamliquidator_internal && \
+    make && \
+    cd ../.. && \
+    rm bamliquidator.tar.gz && \
+    echo "PATH=\$PATH:~/bamliquidator-$BAMLIQUIDATOR_VERSION/bamliquidator_internal" >> ~/.bash_profile && \
+    echo "PATH=\$PATH:~/bamliquidator-$BAMLIQUIDATOR_VERSION/bamliquidator_internal/bamliquidatorbatch" >> ~/.bash_profile && \
 
     echo "Installing Prinseq-LITE..." && \
     PRINSEQ_VERSION=0.20.4 && \
