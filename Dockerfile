@@ -123,7 +123,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     sudo pip install MACS2==2.1.1.20160309 && \
 
     echo "Installing ROSE2..." && \
-    sudo pip install rose2==1.0.2 && \
+    sudo pip install rose2==1.0.5 && \
 
     echo "Installing cutadapt..." && \
     sudo pip install cutadapt==1.9.1 && \
