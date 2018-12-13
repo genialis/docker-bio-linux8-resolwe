@@ -9,6 +9,26 @@ https://github.com/badges/shields/issues/712
 [![ImageLayers Layers](https://img.shields.io/imagelayers/layers/resolwe/bio-linux8-resolwe/latest.svg?maxAge=2592000)](https://imagelayers.io/?images=resolwe/bio-linux8-resolwe:latest)
 -->
 
+UPDATE (2018-12-13)
+-------------------
+
+This Docker image and its corresponding Docker Hub images,
+[resolwe/bio-linux8](https://hub.docker.com/r/resolwe/bio-linux8/),
+[resolwe/bio-linux8-resolwe](
+    https://hub.docker.com/r/resolwe/bio-linux8-resolwe/),
+[resolwe/bio-linux8-resolwe-preview](
+    https://hub.docker.com/r/resolwe/bio-linux8-resolwe-preview/),
+[resolwe/bio-linux8-ugly](
+    https://hub.docker.com/r/resolwe/bio-linux8-ugly/),
+have been superseeded by [Resolwe's](https://hub.docker.com/u/resolwe/) and
+[Resolwe Bioinformatics'](https://hub.docker.com/u/resolwebio/) Docker Hub
+repositories which contain a set of smaller, modular Docker images.
+
+Therefore, this repository along with its Docker Hub images will be
+**deleted on Mar 13, 2019**.
+
+<strike>
+
 Containerized version of [Bio-Linux 8](http://environmentalomics.org/bio-linux/)
 tailored for [Resolwe](https://github.com/genialis/resolwe).
 
@@ -58,3 +78,4 @@ $ docker run -it --rm -v $PWD/data_dir:/home/biolinux/data \
 $ ls data_dir | grep foo
 foo
 ```
+</strike>
